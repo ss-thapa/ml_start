@@ -11,6 +11,6 @@ df = pd.read_csv('/Users/sunilthapa/Desktop/programming/Final_work space/My_proj
 print(df.head())
 
 
-
+print(df)
 
 
