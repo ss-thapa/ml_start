@@ -19,7 +19,7 @@ df = pd.read_csv('/Users/sunilthapa/Desktop/programming/My_final/ML_intro/Social
 # df = df.iloc[:,2:5]
 
 
-# X_train, X_test, y_train, y_test=train_test_split(df.drop('Purchased', axis=1), df['Purchased'] ,train_size=0.3,random_state=0)
+# X_train, X_test, y_train, y_test=train_test_split(df.drop('Purchased', axis=1), df['Purchased'] ,test_size=0.3,random_state=0)
 
 
 # scaler = StandardScaler()
