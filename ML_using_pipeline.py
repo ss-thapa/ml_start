@@ -18,7 +18,7 @@ import pickle
 
 pd.set_option("display.max_columns", None)
 
-df = pd.read_csv('/Users/sunilthapa/Desktop/programming/My_final/ML_intro/train.csv')
+df = pd.read_csv('/Users/sunilthapa/Desktop/programming/My_final/ML_intro/CSVs/train.csv')
 
 df.drop(columns=['PassengerId', 'Name', 'Ticket', 'Cabin'], inplace=True)
 
@@ -124,7 +124,7 @@ grid.best_params_
 
 ## Exporting the Pipeline
 
-pickle.dump(pipe, open('pipe.pkl', 'wb'))
+# pickle.dump(pipe, open('pipe.pkl', 'wb'))
 
 
 
@@ -132,11 +132,11 @@ pickle.dump(pipe, open('pipe.pkl', 'wb'))
 ### testing my data using the pickle 
 ### now if we make changes in the above code we have to use new pipe.pkl file we create after change
 
-pipe2 = pickle.load(open('pipe.pkl', 'rb'))
+# pipe2 = pickle.load(open('pipe.pkl', 'rb'))
 
-test_input1 = np.array([2, 'male', 31.0,0,0,10.5,'s'], dtype=object).reshape(1,7)
+# test_input1 = np.array([2, 'male', 31.0,0,0,10.5,'s'], dtype=object).reshape(1,7)
 
-pipe.predict(test_input1)
+# pipe.predict(test_input1)
 
 
 
