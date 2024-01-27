@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-import scipy.stats as stats
+from sklearn.model_selection import train_test_split 
+import scipy.stats as stats   
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import LinearRegression
@@ -11,7 +11,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import r2_score
-from sklearn.preprocessing import PowerTransformer
+from sklearn.preprocessing import PowerTransformer 
+
 
 
 
@@ -44,69 +45,69 @@ from sklearn.preprocessing import PowerTransformer
 
 df = pd.read_csv('/Users/sunilthapa/Desktop/programming/My_final/ML_intro/CSVs/concrete_data.csv')
 
-print(df)
+print(df.head())
 
-X = df.drop('Strength', axis=1)
-Y = df.iloc[:,-1]
+# X = df.drop('Strength', axis=1)
+# Y = df.iloc[:,-1]
 
-X_train,X_test,Y_train,Y_test=train_test_split(X,Y, test_size=0.2, random_state=42)
-
-
-## Applying regression without any transformation
-
-lr = LinearRegression()
-
-lr.fit(X_train, Y_train)
-
-y_pred = lr.predict(X_test)
-
-r2_score(Y_test, y_pred)
+# X_train,X_test,Y_train,Y_test=train_test_split(X,Y, test_size=0.2, random_state=42)
 
 
+# ## Applying regression without any transformation
 
-#### applying box-cox transformation 
+# lr = LinearRegression()
 
-pt = PowerTransformer(method='box-cox')
+# lr.fit(X_train, Y_train)
 
-## adding 0.000001 because box-cox doesn't support zero and negative value
-## here we are converting all 8 columns using box-cox 
+# y_pred = lr.predict(X_test)
 
-X_train_transformed = pt.fit_transform(X_train + 0.0000001)
-X_test_tranformed = pt.transform(X_test + 0.0000001)
-
-
-## applying regression with tranformation
-
-lr = LinearRegression()
-
-lr.fit(X_train_transformed, Y_train)
-
-y_pred = lr.predict(X_test_tranformed)
-
-r2_score(Y_test, y_pred)
+# r2_score(Y_test, y_pred)
 
 
 
+# #### applying box-cox transformation 
 
-### applying Yeo-johnson transform
+# pt = PowerTransformer(method='box-cox')
 
-py = PowerTransformer(method='yeo-johnson')
+# ## adding 0.000001 because box-cox doesn't support zero and negative value
+# ## here we are converting all 8 columns using box-cox 
 
-X_train_transformed_y = py.fit_transform(X_train)
-X_test_tranformed_y = py.transform(X_test)
+# X_train_transformed = pt.fit_transform(X_train + 0.0000001)
+# X_test_tranformed = pt.transform(X_test + 0.0000001)
+
+
+# ## applying regression with tranformation
+
+# lr = LinearRegression()
+
+# lr.fit(X_train_transformed, Y_train)
+
+# y_pred = lr.predict(X_test_tranformed)
+
+# r2_score(Y_test, y_pred)
 
 
 
 
+# ### applying Yeo-johnson transform
 
-## applying regression with tranformation with yeo-johnson
+# py = PowerTransformer(method='yeo-johnson')
 
-lr = LinearRegression()
+# X_train_transformed_y = py.fit_transform(X_train)
+# X_test_tranformed_y = py.transform(X_test)
 
-lr.fit(X_train_transformed_y, Y_train)
 
-y_pred_y = lr.predict(X_test_tranformed_y)
 
-r2_score(Y_test, y_pred_y)
+
+
+# ## applying regression with tranformation with yeo-johnson
+
+# lr = LinearRegression()
+
+# lr.fit(X_train_transformed_y, Y_train)
+
+# y_pred_y = lr.predict(X_test_tranformed_y)
+
+# r2_score(Y_test, y_pred_y)
 
 
