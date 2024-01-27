@@ -13,9 +13,9 @@ import psycopg2
 
 
 
-# df = pd.read_csv('/Users/sunilthapa/Desktop/programming/My_final/ML_intro/placement.csv')
+df = pd.read_csv('/Users/sunilthapa/Desktop/programming/My_final/ML_intro/placement.csv')
 
-
+print(df)
 
 # df = df.iloc[:,1:]
 

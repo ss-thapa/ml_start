@@ -15,9 +15,9 @@ from sklearn.preprocessing import FunctionTransformer
 from sklearn.compose import ColumnTransformer
 
 
-df = sns.load_dataset('titanic')
+df = sns.load_dataset('titanic')                        
 
-
+print(df.head())
 
 selected_columns = ['survived', 'age', 'fare']
 df1 = df[selected_columns]
