@@ -43,19 +43,12 @@ sample_std = np.std(sample_means, ddof=1)  # Use ddof=1 for sample standard devi
 confidence_level = 0.95
 
 # Find the critical value (two-tailed)
-z_critical = stats.norm.ppf((1 + confidence_level) / 2)
-
-# Calculate standard error
-standard_error = sample_std / np.sqrt(len(sample_means))
-
-# Calculate margin of error
-margin_of_error = z_critical * standard_error
+margin_of_error = stats.norm.ppf((1 + confidence_level) / 2) * np.sqrt(len(sample_means))
 
 # Calculate confidence interval
 confidence_interval = (sample_mean - margin_of_error, sample_mean + margin_of_error)
 
-f"Confidence Interval ({confidence_level*100}%): {confidence_interval}"
+print(f"Confidence Interval ({confidence_level*100}%): {confidence_interval}")
 
 
 ### Confidence Interval (95.0%): (767.1566541159784, 807.1282030268787) this result means 95 percent of the time the mean of the population will lie in between (767.1566541159784, 807.1282030268787)
-
