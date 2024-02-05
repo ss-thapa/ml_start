@@ -6,6 +6,7 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import t
+from scipy.stats import chi2_contingency
 
 
 
@@ -113,42 +114,87 @@ cdf_value = t.cdf(t_value, df)
 ### before and after is the weight of the persons before training and after training 
 
 
-before = np.array([80, 92, 75, 68, 85, 78, 73, 90, 70, 88, 76, 84, 82, 77, 91])
-after = np.array([78, 93, 81, 67, 88, 76, 74, 91, 69, 88, 77, 81, 80, 79, 88])
+# before = np.array([80, 92, 75, 68, 85, 78, 73, 90, 70, 88, 76, 84, 82, 77, 91])
+# after = np.array([78, 93, 81, 67, 88, 76, 74, 91, 69, 88, 77, 81, 80, 79, 88])
 
 
 
-differences = after - before
+# differences = after - before
 
 
-# plt.hist(differences)
-# plt.title("Histogram of Weight Differences")
-# plt.xlabel("Weight Differences (kg)")
-# plt.ylabel("Frequency")
-# plt.show()
+# # plt.hist(differences)
+# # plt.title("Histogram of Weight Differences")
+# # plt.xlabel("Weight Differences (kg)")
+# # plt.ylabel("Frequency")
+# # plt.show()
 
-shapiro_test = stats.shapiro(differences)
-# print("Shapiro-Wilk test:", shapiro_test)
+# shapiro_test = stats.shapiro(differences)
+# # print("Shapiro-Wilk test:", shapiro_test)
 
-mean_diff = np.mean(differences)
-std_diff = np.std(differences, ddof=1)
-
-
-
-t_statistics, p_value = stats.ttest_rel(before,after)
-
-# print("T-statistic:", t_statistics)
-# print("P-value:", p_value)
+# mean_diff = np.mean(differences)
+# std_diff = np.std(differences, ddof=1)
 
 
 
-# Interpretation
+# t_statistics, p_value = stats.ttest_rel(before,after)
+
+# # print("T-statistic:", t_statistics)
+# # print("P-value:", p_value)
+
+
+
+# # Interpretation
+# alpha = 0.05
+# if p_value < alpha:
+#     print("Reject the null hypothesis. There is a significant difference between 'before' and 'after'.")
+# else:
+#     print("Fail to reject the null hypothesis. There is no significant difference between 'before' and 'after'.")
+
+
+
+
+
+
+np.random.seed(42)
+
+## Data Generation: Simulating data for the example
+gender = np.random.choice(['Male', 'Female'], size=200)
+genre = np.random.choice(['Action', 'Comedy', 'Drama'], size=200)
+
+## Create a pandas DataFrame
+data = {'Gender': gender, 'Genre': genre}
+df = pd.DataFrame(data)
+
+## Contingency Table
+contingency_table = pd.crosstab(df['Gender'], df['Genre'])
+
+## Hypotheses
+## Null Hypothesis (H0): There is no association between gender and favorite movie genre.
+## Alternative Hypothesis (H1): There is an association between gender and favorite movie genre.
+
+## Perform the Chi-Square Test for Independence
+## degree of freedom = (Number of Rows−1)×(Number of Columns−1)
+chi2, p, dof, expected = chi2_contingency(contingency_table)
+
+# print(contingency_table)
+# print(expected)
+# print(dof)
+
+##Display results
+print("Chi-Square Test Statistic:", chi2)
+print("P-value:", p)
+print("Degrees of Freedom:", dof)
+print("Expected Frequencies Table:")
+print(pd.DataFrame(expected, index=['Male', 'Female'], columns=['Action', 'Comedy', 'Drama']))
+
+## Decision
 alpha = 0.05
-if p_value < alpha:
-    print("Reject the null hypothesis. There is a significant difference between 'before' and 'after'.")
+print("\nSignificance Level (alpha):", alpha)
+print("P-value < alpha? ", p < alpha)
+
+if p < alpha:
+    print("Reject the null hypothesis. There is a significant association between gender and favorite movie genre.")
 else:
-    print("Fail to reject the null hypothesis. There is no significant difference between 'before' and 'after'.")
-
-
+    print("Fail to reject the null hypothesis. There is no significant association between gender and favorite movie genre.")
 
 

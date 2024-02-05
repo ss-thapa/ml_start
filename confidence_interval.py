@@ -75,7 +75,7 @@ df = pd.read_csv("/Users/sunilthapa/Desktop/My _projects/ML_intro/CSVs/daraz_tra
 # degrees_of_freedom = sample_size - 1
 
 # # Calculate margin of error using t-distribution values
-# t_margin_of_error = stats.t.ppf((1 + confidence_level) / 2, df=degrees_of_freedom) * (sample_std / np.sqrt(num_samples))
+# t_margin_of_error = stats.t.ppf((1 + confidence_level) / 2, df=degrees_of_freedom) * (sample_std / np.sqrt(sample_size))
 
 # # Calculate confidence interval
 # lower_limit = sample_mean - t_margin_of_error
@@ -116,8 +116,8 @@ df = pd.read_csv("/Users/sunilthapa/Desktop/My _projects/ML_intro/CSVs/daraz_tra
 
 
 # # Calculate confidence interval
-# lower_limit = sample_mean - 2.04523 * (sample_std/np.sqrt(30))
-# upper_limit = sample_mean + 2.04523 * (sample_std/np.sqrt(30))
+# lower_limit = sample_mean - 2.042 * (sample_std/np.sqrt(30))
+# upper_limit = sample_mean + 2.042 * (sample_std/np.sqrt(30))
 
 # print(f"Confidence Interval ({confidence_level*100}%): ({lower_limit}, {upper_limit})")
 
