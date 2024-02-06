@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import t
 from scipy.stats import chi2_contingency
-
+import statsmodels.api as sm
+from statsmodels.formula.api import ols 
+ 
 
 
 ### to calculate p value
@@ -153,48 +155,199 @@ cdf_value = t.cdf(t_value, df)
 
 
 
+### chi square Chi-Square Test for Independence
 
 
-np.random.seed(42)
 
-## Data Generation: Simulating data for the example
-gender = np.random.choice(['Male', 'Female'], size=200)
-genre = np.random.choice(['Action', 'Comedy', 'Drama'], size=200)
+# np.random.seed(42)
 
-## Create a pandas DataFrame
-data = {'Gender': gender, 'Genre': genre}
+# ## Data Generation: Simulating data for the example
+# gender = np.random.choice(['Male', 'Female'], size=200)
+# genre = np.random.choice(['Action', 'Comedy', 'Drama'], size=200)
+
+# ## Create a pandas DataFrame
+# data = {'Gender': gender, 'Genre': genre}
+# df = pd.DataFrame(data)
+
+# ## Contingency Table
+# contingency_table = pd.crosstab(df['Gender'], df['Genre'])
+
+# ## Hypotheses
+# ## Null Hypothesis (H0): There is no association between gender and favorite movie genre.
+# ## Alternative Hypothesis (H1): There is an association between gender and favorite movie genre.
+
+# ## Perform the Chi-Square Test for Independence
+# ## degree of freedom = (Number of Rows−1)×(Number of Columns−1)
+# chi2, p, dof, expected = chi2_contingency(contingency_table)
+
+# # print(contingency_table)
+# # print(expected)
+# # print(dof)
+
+# ##Display results
+# print("Chi-Square Test Statistic:", chi2)
+# print("P-value:", p)
+# print("Degrees of Freedom:", dof)
+# print("Expected Frequencies Table:")
+# print(pd.DataFrame(expected, index=['Male', 'Female'], columns=['Action', 'Comedy', 'Drama']))
+
+# ## Decision
+# alpha = 0.05
+# print("\nSignificance Level (alpha):", alpha)
+# print("P-value < alpha? ", p < alpha)
+
+# if p < alpha:
+#     print("Reject the null hypothesis. There is a significant association between gender and favorite movie genre.")
+# else:
+#     print("Fail to reject the null hypothesis. There is no significant association between gender and favorite movie genre.")
+
+
+
+
+
+
+
+### chi square Goodness-of-Fit Test
+
+
+
+# # Observed sales counts
+# observed_counts = np.array([70, 50, 80])
+
+# # Expected counts assuming equal contribution
+# expected_counts = np.array([66.67, 66.67, 66.67])
+
+# # Perform the Chi-Square Goodness-of-Fit Test
+# chi2, p, dof, expected = chi2_contingency([observed_counts, expected_counts])
+
+# # Display results
+# print("Chi-Square Test Statistic:", chi2)
+# print("P-value:", p)
+
+# # Decision
+# alpha = 0.05
+# print("\nSignificance Level (alpha):", alpha)
+# print("P-value < alpha? ", p < alpha)
+
+# if p < alpha:
+#     print("Reject the null hypothesis. The observed sales distribution does not match the expected distribution.")
+# else:
+#     print("Fail to reject the null hypothesis. The observed sales distribution matches the expected distribution.")
+
+
+
+
+
+
+### anova test : one way anova
+
+## Null Hypothesis (H0) :The mean reduction of blood pressure is the same across all three drug groups
+## Alternative Hypothesis (H1) : At least one drug group has a different mean reduction of blood pressure compared to the others.
+
+
+
+# ##Blood pressure reduction data for each drug group
+# drug_a = [10, 12, 15, 11, 14]
+# drug_b = [8, 9, 10, 7, 11]
+# drug_c = [5, 6, 7, 8, 4]
+
+# ## Perform one-way ANOVA
+# statistic, p_value = stats.f_oneway(drug_a, drug_b, drug_c)
+
+# ## Display results
+# print("One-Way ANOVA Statistic:", statistic)
+# print("P-value:", p_value)
+
+# ## Decision
+# alpha = 0.05
+# print("\nSignificance Level (alpha):", alpha)
+# print("P-value < alpha? ", p_value < alpha)
+
+# if p_value < alpha:
+#     print("Reject the null hypothesis. There are significant differences in blood pressure reduction among the drug groups.")
+# else:
+#     print("Fail to reject the null hypothesis. There are no significant differences in blood pressure reduction among the drug groups.")
+
+
+
+
+### repeated measure anova
+
+
+# intervention_a = [[5, 6, 4, 7, 5], [4, 5, 6, 3, 4], [6, 7, 5, 6, 7]]
+# intervention_b = [[6, 7, 8, 5, 6], [7, 6, 5, 8, 7], [8, 9, 7, 8, 9]]
+# intervention_c = [[4, 5, 3, 6, 4], [3, 4, 5, 2, 3], [5, 6, 4, 5, 6]]
+
+# ## Flatten the data (required format for repeated measures ANOVA)
+# data = [np.array(intervention_a).flatten(), np.array(intervention_b).flatten(), np.array(intervention_c).flatten()]
+
+# # Ensure all arrays have the same length by padding with NaN values
+# max_length = max(len(intervention_a[0]), len(intervention_b[0]), len(intervention_c[0]))
+# padded_a = [session + [np.nan] * (max_length - len(session)) for session in intervention_a]
+# padded_b = [session + [np.nan] * (max_length - len(session)) for session in intervention_b]
+# padded_c = [session + [np.nan] * (max_length - len(session)) for session in intervention_c]
+
+# # Combine all data into a single list
+# all_data = padded_a + padded_b + padded_c
+
+# # Create a DataFrame
+# df = pd.DataFrame(all_data, columns=[f'Session {i+1}' for i in range(max_length)])
+# df['Intervention'] = ['Intervention A'] * 3 + ['Intervention B'] * 3 + ['Intervention C'] * 3
+
+# ## Perform repeated measures ANOVA
+# statistic, p_value = stats.f_oneway(*data)
+
+# ## Display results
+# print("Repeated Measures ANOVA Statistic:", statistic)
+# print("P-value:", p_value)
+
+# ## Decision
+# alpha = 0.05
+# print("\nSignificance Level (alpha):", alpha)
+# print("P-value < alpha? ", p_value < alpha)
+
+# if p_value < alpha:
+#     print("Reject the null hypothesis. There are significant differences in anxiety reduction among the therapeutic interventions.")
+# else:
+#     print("Fail to reject the null hypothesis. There are no significant differences in anxiety reduction among the therapeutic interventions.")
+
+
+
+
+### factorial anova
+
+
+# Weight loss data for each combination of exercise and diet
+no_exercise_standard = [3, 4, 3, 5, 4]
+no_exercise_low_carb = [4, 5, 4, 6, 5]
+moderate_exercise_standard = [5, 6, 5, 7, 6]
+moderate_exercise_low_carb = [6, 7, 6, 8, 7]
+intense_exercise_standard = [7, 8, 7, 9, 8]
+intense_exercise_low_carb = [8, 9, 8, 10, 9]
+
+# Combine data into a DataFrame
+data = {
+    'WeightLoss': no_exercise_standard + no_exercise_low_carb + moderate_exercise_standard + moderate_exercise_low_carb + intense_exercise_standard + intense_exercise_low_carb,
+    'Exercise': ['No Exercise'] * 5 + ['No Exercise'] * 5 + ['Moderate Exercise'] * 5 + ['Moderate Exercise'] * 5 + ['Intense Exercise'] * 5 + ['Intense Exercise'] * 5,
+    'Diet': ['Standard Diet'] * 5 + ['Low Carb Diet'] * 5 + ['Standard Diet'] * 5 + ['Low Carb Diet'] * 5 + ['Standard Diet'] * 5 + ['Low Carb Diet'] * 5
+}
 df = pd.DataFrame(data)
 
-## Contingency Table
-contingency_table = pd.crosstab(df['Gender'], df['Genre'])
 
-## Hypotheses
-## Null Hypothesis (H0): There is no association between gender and favorite movie genre.
-## Alternative Hypothesis (H1): There is an association between gender and favorite movie genre.
+# Perform factorial ANOVA
+formula = 'WeightLoss ~ C(Exercise) * C(Diet)'
+model = ols(formula, data=df).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
 
-## Perform the Chi-Square Test for Independence
-## degree of freedom = (Number of Rows−1)×(Number of Columns−1)
-chi2, p, dof, expected = chi2_contingency(contingency_table)
+# Display ANOVA results
+print(anova_table)
 
-# print(contingency_table)
-# print(expected)
-# print(dof)
-
-##Display results
-print("Chi-Square Test Statistic:", chi2)
-print("P-value:", p)
-print("Degrees of Freedom:", dof)
-print("Expected Frequencies Table:")
-print(pd.DataFrame(expected, index=['Male', 'Female'], columns=['Action', 'Comedy', 'Drama']))
-
-## Decision
+# Decision
 alpha = 0.05
-print("\nSignificance Level (alpha):", alpha)
-print("P-value < alpha? ", p < alpha)
+interaction_p_value = anova_table.loc['C(Exercise):C(Diet)', 'PR(>F)']
+print("\nInteraction Effect p-value:", interaction_p_value)
 
-if p < alpha:
-    print("Reject the null hypothesis. There is a significant association between gender and favorite movie genre.")
+if interaction_p_value < alpha:
+    print("Reject the null hypothesis. There is a significant interaction effect between exercise and diet on weight loss.")
 else:
-    print("Fail to reject the null hypothesis. There is no significant association between gender and favorite movie genre.")
-
-
+    print("Fail to reject the null hypothesis. There is no significant interaction effect between exercise and diet on weight loss.")
